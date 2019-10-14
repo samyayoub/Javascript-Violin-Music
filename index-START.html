@@ -60,9 +60,33 @@
   <audio data-key="74" src="Sounds\noisecrux-VIO001-111bpm-Dmin.wav"></audio>
   <audio data-key="75" src="Sounds\noisecrux-VIO001-111bpm-Emaj.wav"></audio>
   <audio data-key="76" src="Sounds\noisecrux-VIO001-111bpm-Gmaj.wav"></audio>
-  <audio data-key="76" src="Sounds\noisecrux-VIO001-111bpm-Gmin.wav"></audio>
+  <audio data-key="186" src="Sounds\noisecrux-VIO001-111bpm-Gmin.wav"></audio>
 
 <script>
+
+  function playSound(e)  {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    
+    if (!audio) return; //stops the function from running if no audio selected
+    
+    audio.currentTime = 0;  // Rewinds the audio to the start every time user presses a button.
+    audio.play();
+    key.classList.add("playing");
+
+  }
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; //skip if it's not the 'transform' transition we are looking for.
+
+    this.classList.remove('playing');
+  }
+  
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  window.addEventListener("keydown", playSound);
+
 
 </script>
 
